@@ -464,7 +464,7 @@ var resizePizzas = function(size) {
             console.log("bug in sizeSwitcher");
     }
 
-    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+    var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
 
     for (var i = 0; i < randomPizzas.length; i++) {
         randomPizzas[i].style.width = newWidth + "%";
@@ -483,8 +483,10 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
+
+
+var pizzasDiv = document.getElementById("randomPizzas");
+for (var i = 2; i < 100; i++) {  
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -520,16 +522,27 @@ function updatePositions() {
 
   var items = document.getElementsByClassName('mover');
   
+  var phase = []; 
+
   
-    
+  //appreciate the suggection 
+  for (var i = 0; i < 5; i++) {
+      phase.push(Math.sin(scrollTop / 1250 + i) * 100);
+  }  
+  //for (var i = 0, max = items.length; i < max; i++) {
+  //    items[i].style.left = items[i].basicLeft + phase[i%5] + 'px';
+  //}
+  
   for (var i = 0; i < items.length; i++) {
     
-    var phase = Math.sin((scrollTop / 1250) + (i % 5));
-    var newX = (items[i].basicLeft + 100 * phase) - 750;
+    //var phase = Math.sin((scrollTop / 1250) + (i % 5));
+    //var newX = (items[i].basicLeft + 100 * phase) - 750;
+    
+    var newX = (items[i].basicLeft + phase[i%5]) - 750;
     
     items[i].style.transform = 'translateX(' + newX + 'px)';    
     
-    console.log(items[i].style.transform);
+    //console.log(items[i].style.transform);
     
   }
   // User Timing API to the rescue again. Seriously, it's worth learning.
